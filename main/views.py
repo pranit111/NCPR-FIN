@@ -103,6 +103,10 @@ def prop_view(request,pid):
         )
     ).exclude(id=property.id).order_by('price_difference').first()
    return render(request, 'prop_view.html', {'prop': property,'photos':photos,'remaining':total,"sp":similar_price_property,"sc":similar_price_city_property,'sd':similar_price_developer_property,'ss':similar_size_property})
+def more_img(request,pid):
+    photos=Photo.objects.filter(property=pid)
+    return render(request,'allphotos.html',{'photos':photos})
+
 def abt_us(request):
     property=request.POST.get("property")
     name=request.POST.get("name")
@@ -110,9 +114,4 @@ def abt_us(request):
     email=request.POST.get("email")
     inquiry = inq(name=name, contactno=phone, email=email,property=property)
     inquiry.save()
-
-
     return redirect("/main")
-def more_img(request,pid):
-    photos=Photo.objects.filter(property=pid)
-    return render("main/prop_view/{{property.id}}")
